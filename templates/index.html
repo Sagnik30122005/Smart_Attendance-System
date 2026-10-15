@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zero-Trust Attendance System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container" style="text-align:center;">
+        <h1>Zero-Trust Attendance</h1>
+        <p>Device-locked. Time-limited. Network-verified.</p>
+        <a class="btn" href="{{ url_for('teacher_login') }}">I'm a Teacher</a>
+        <a class="btn" href="{{ url_for('student_login') }}">I'm a Student</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Register</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Student Sign Up</h2>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}{% for m in messages %}<div class="flash">{{ m }}</div>{% endfor %}{% endif %}
+        {% endwith %}
+        <form method="POST">
+            <label>Name</label>
+            <input type="text" name="name" required>
+            <label>Roll Number</label>
+            <input type="text" name="roll_no" required>
+            <label>Email</label>
+            <input type="email" name="email" required>
+            <label>Password</label>
+            <input type="password" name="password" required>
+            <button type="submit">Create Account</button>
+        </form>
+        <p style="margin-top:16px;">Already have an account? <a href="{{ url_for('student_login') }}">Log in</a></p>
+    </div>
+</body>
+</html>

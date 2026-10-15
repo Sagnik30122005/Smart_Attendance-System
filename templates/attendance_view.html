@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Attendance - Session {{ session_id }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta http-equiv="refresh" content="5">
+</head>
+<body>
+    <div class="container wide">
+        <h2>Attendance for Session #{{ session_id }}</h2>
+        <p style="color:#94a3b8;">Auto-refreshes every 5 seconds.</p>
+        <table>
+            <tr><th>Name</th><th>Roll No</th><th>Check-in Time</th><th>IP</th></tr>
+            {% for r in records %}
+            <tr><td>{{ r.name }}</td><td>{{ r.roll_no }}</td><td>{{ r.check_in_time }}</td><td>{{ r.student_ip }}</td></tr>
+            {% else %}
+            <tr><td colspan="4">No one has checked in yet.</td></tr>
+            {% endfor %}
+        </table>
+        <a class="btn" href="{{ url_for('teacher_dashboard') }}" style="margin-top:20px;">Back</a>
+    </div>
+</body>
+</html>

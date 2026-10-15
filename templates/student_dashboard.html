@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- FingerprintJS: generates a unique ID for this browser/device -->
+    <script src="https://openfpcdn.io/fingerprintjs/v4/iife.min.js"></script>
+</head>
+<body>
+    <div class="container wide">
+        <h2>Welcome, {{ session['student_name'] }}</h2>
+        <a href="{{ url_for('logout') }}">Log out</a>
+
+        <h3 style="margin-top:30px;">Enroll in a Course</h3>
+        <form method="POST" action="{{ url_for('enroll') }}">
+            <label>Course code (get this from your teacher)</label>
+            <input type="text" name="code" required>
+            <button type="submit">Enroll</button>
+        </form>
+
+        <h3 style="margin-top:30px;">Check In</h3>
+        <div class="card">
+            <label>Session ID (your teacher will announce this)</label>
+            <input type="number" id="sessionId" placeholder="e.g. 4">
+            <button onclick="checkIn()">Check In Now</button>
+            <div id="status"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/student.js') }}"></script>
+</body>
+</html>

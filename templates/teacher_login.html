@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teacher Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Teacher Login</h2>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}{% for m in messages %}<div class="flash">{{ m }}</div>{% endfor %}{% endif %}
+        {% endwith %}
+        <form method="POST">
+            <label>Email</label>
+            <input type="email" name="email" required>
+            <label>Password</label>
+            <input type="password" name="password" required>
+            <button type="submit">Log In</button>
+        </form>
+        <p style="margin-top:16px;">No account? <a href="{{ url_for('teacher_register') }}">Register</a></p>
+    </div>
+</body>
+</html>

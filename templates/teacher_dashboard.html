@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container wide">
+        <h2>Welcome, {{ session['teacher_name'] }}</h2>
+        <a href="{{ url_for('logout') }}">Log out</a>
+
+        <h3 style="margin-top:30px;">Create a Course</h3>
+        <form method="POST" action="{{ url_for('create_course') }}">
+            <label>Course name</label>
+            <input type="text" name="name" required>
+            <label>Course code (share this with students)</label>
+            <input type="text" name="code" required>
+            <button type="submit">Create Course</button>
+        </form>
+
+        <h3 style="margin-top:30px;">Your Courses</h3>
+        {% for c in courses %}
+        <div class="card">
+            <strong>{{ c.name }}</strong> ({{ c.code }})
+            <br><br>
+            <button onclick="startSession({{ c.id }}, this)">Start Attendance Session</button>
+            <div class="session-result" style="margin-top:10px;"></div>
+        </div>
+        {% else %}
+        <p>No courses yet.</p>
+        {% endfor %}
+    </div>
+
+    <script>
+    async function startSession(courseId, btn) {
+    const resultDiv = btn.parentElement.querySelector(".session-result");
+
+    const formData = new FormData();
+    formData.append("course_id", courseId);
+
+    try {
+        const res = await fetch("/teacher/session/start", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+            resultDiv.innerHTML = `
+                <span style="color:red;">
+                    Error: ${data.error || "Could not start session"}
+                </span>
+            `;
+            console.error("Session start error:", data);
+            return;
+        }
+
+        resultDiv.innerHTML = `
+            <span style="color:lightgreen;">
+                Session #${data.session_id} started.<br>
+                Window: ${data.window_seconds} seconds.<br>
+                <a href="/teacher/session/${data.session_id}/attendance" target="_blank">
+                    View live attendance
+                </a>
+            </span>
+        `;
+
+    } catch (error) {
+        resultDiv.innerHTML = `
+            <span style="color:red;">
+                Error connecting to server: ${error}
+            </span>
+        `;
+
+        console.error("Fetch error:", error);
+    }
+}
+    </script>
+</body>
+</html>
